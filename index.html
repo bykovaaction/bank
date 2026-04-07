@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Справочник по банковским гарантиям</title>
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --bg-soft: #edf0f4;
+      --surface: #ffffff;
+      --line: #d9dde5;
+      --line-soft: #e7ebf2;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --accent: #0071e3;
+      --accent-strong: #005bb5;
+      --accent-soft: #eaf3ff;
+      --ok-bg: #e9f7ef;
+      --ok-text: #137333;
+      --warn-bg: #fff3e2;
+      --warn-text: #8d5a00;
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      font-family: "SF Pro Display", "Segoe UI", "Roboto", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(110% 80% at 8% 0%, #ffffff 0%, transparent 64%),
+        radial-gradient(90% 70% at 95% 100%, #eaf1fb 0%, transparent 58%),
+        linear-gradient(120deg, rgba(0, 113, 227, 0.03) 0%, transparent 42%),
+        linear-gradient(160deg, var(--bg) 0%, var(--bg-soft) 100%);
+    }
+
+    #app {
+      width: 100%;
+      height: 100vh;
+      padding: 20px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 14px;
+    }
+
+    .shell {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(252, 253, 255, 0.94) 100%);
+      border: 1px solid rgba(216, 222, 232, 0.92);
+      border-radius: var(--radius);
+      padding: 24px;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 18px;
+      box-shadow:
+        0 18px 44px rgba(16, 24, 40, 0.08),
+        0 4px 12px rgba(16, 24, 40, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.92);
+    }
+
+    .title h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.18;
+      font-weight: 680;
+      letter-spacing: -0.015em;
+    }
+
+    .title p {
+      margin: 7px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .switcher {
+      display: inline-flex;
+      gap: 5px;
+      padding: 5px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background:
+        linear-gradient(180deg, #ffffff 0%, #f6f8fb 100%);
+      width: fit-content;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.85),
+        0 3px 8px rgba(16, 24, 40, 0.08);
+    }
+
+    .switcher button {
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 620;
+      letter-spacing: 0.015em;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .switcher button:hover {
+      background: #eef3fb;
+      color: var(--accent-strong);
+    }
+
+    .switcher button.active {
+      background: linear-gradient(180deg, #1482f0 0%, #006adc 100%);
+      color: #fff;
+      box-shadow:
+        0 6px 16px rgba(0, 113, 227, 0.34),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .block-head h2 {
+      margin: 0;
+      font-size: 19px;
+      line-height: 1.28;
+      font-weight: 650;
+      letter-spacing: -0.012em;
+    }
+
+    .block-head p {
+      margin: 8px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.46;
+      max-width: 64ch;
+    }
+
+    .cards {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .card {
+      border: 1px solid var(--line-soft);
+      border-radius: 14px;
+      padding: 16px;
+      background:
+        linear-gradient(180deg, #ffffff 0%, #fafbfe 100%);
+      transition: box-shadow 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+      box-shadow:
+        0 8px 20px rgba(16, 24, 40, 0.06),
+        0 2px 6px rgba(16, 24, 40, 0.04);
+    }
+
+    .card:hover {
+      border-color: #c9d8ec;
+      box-shadow:
+        0 14px 30px rgba(16, 24, 40, 0.1),
+        0 4px 10px rgba(16, 24, 40, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 640;
+      letter-spacing: -0.012em;
+    }
+
+    .card .desc {
+      margin: 9px 0 0;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .card .meta {
+      margin-top: 12px;
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 11px;
+      border-radius: 999px;
+      padding: 4px 9px;
+      border: 1px solid #d7dfec;
+      background: #f3f6fb;
+      color: #475467;
+      white-space: nowrap;
+      font-weight: 560;
+      letter-spacing: 0.01em;
+    }
+
+    .tag.ok {
+      background: var(--ok-bg);
+      color: var(--ok-text);
+      border-color: #cbe7d7;
+    }
+
+    .tag.warn {
+      background: var(--warn-bg);
+      color: var(--warn-text);
+      border-color: #efd9ad;
+    }
+
+    @media (max-width: 734px) {
+      #app { padding: 12px; gap: 10px; }
+      .shell { padding: 16px; gap: 12px; }
+      .cards { gap: 10px; }
+      .title h1 { font-size: 18px; }
+      .block-head h2 { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script src="data.js"></script>
+  <script>
+    (function () {
+      var data = window.BG_DATA;
+      var app = document.getElementById('app');
+
+      if (!data || !Array.isArray(data.categories) || !data.categories.length) {
+        app.innerHTML = '<div class="shell">Данные не загружены.</div>';
+        return;
+      }
+
+      var notes = {
+        'payment-terms': 'Сравниваются условия, при которых бенефициар получает выплату.',
+        'revocation': 'Сравнивается возможность отзыва гарантии банком.',
+        'coverage': 'Сравнивается наличие покрытия по гарантии.'
+      };
+
+      var shortNames = {
+        'payment-terms': 'Выплата',
+        'revocation': 'Отзыв',
+        'coverage': 'Обеспечение'
+      };
+
+      var state = {
+        activeCategoryId: data.categories[0].id
+      };
+
+      function reliabilityClass(value) {
+        var t = String(value || '').toLowerCase();
+        if (t.indexOf('выше') !== -1) return 'ok';
+        if (t.indexOf('ниже') !== -1) return 'warn';
+        return '';
+      }
+
+      function getActiveCategory() {
+        return data.categories.find(function (category) {
+          return category.id === state.activeCategoryId;
+        }) || data.categories[0];
+      }
+
+      function render() {
+        var active = getActiveCategory();
+
+        var switcher = data.categories.map(function (category) {
+          var isActive = category.id === active.id ? 'active' : '';
+          var label = shortNames[category.id] || category.name;
+          return '<button type="button" class="' + isActive + '" data-switch="' + category.id + '">' + label + '</button>';
+        }).join('');
+
+        var cards = active.options.map(function (option) {
+          return [
+            '<article class="card">',
+            '<h3>' + option.name + '</h3>',
+            '<p class="desc">' + option.description + '</p>',
+            '<div class="meta">',
+            '<span class="tag ' + reliabilityClass(option.reliability) + '">Надежность: ' + option.reliability + '</span>',
+            '<span class="tag">' + option.risk + '</span>',
+            '</div>',
+            '</article>'
+          ].join('');
+        }).join('');
+
+        app.innerHTML = [
+          '<main class="shell">',
+          '<header class="title">',
+          '<h1>' + (data.title || 'Справочник по банковским гарантиям') + '</h1>',
+          '<p>Три логики сравнения по видам банковских гарантий.</p>',
+          '</header>',
+
+          '<div class="switcher" aria-label="Блоки">' + switcher + '</div>',
+
+          '<section class="block-head">',
+          '<h2>' + active.name + '</h2>',
+          '<p>' + (notes[active.id] || '') + '</p>',
+          '</section>',
+
+          '<section class="cards">' + cards + '</section>',
+          '</main>'
+        ].join('');
+      }
+
+      app.addEventListener('click', function (event) {
+        var switchBtn = event.target.closest('[data-switch]');
+        if (switchBtn) {
+          state.activeCategoryId = switchBtn.getAttribute('data-switch');
+          render();
+        }
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>
