@@ -99,18 +99,19 @@
     }
 
     .switcher button {
-      border: 0;
-      background: transparent;
-      color: var(--text);
-      border-radius: 10px;
-      padding: 8px 14px;
-      font-size: 12px;
-      font-weight: 620;
-      letter-spacing: 0.015em;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
-    }
+  border: 0;
+  background: transparent;
+  color: #243447;           /* темнее для контраста */
+  border-radius: 10px;
+  padding: 9px 16px;        /* больше “воздуха” */
+  font-size: 13px;          /* было 12px */
+  font-weight: 650;         /* чуть плотнее */
+  letter-spacing: 0;        /* убрать лишний разряд */
+  line-height: 1.2;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
 
     .switcher button:hover {
       background: #eef3fb;
@@ -119,7 +120,8 @@
 
     .switcher button.active {
       background: linear-gradient(180deg, #1482f0 0%, #006adc 100%);
-      color: #fff;
+      color: #ffffff;
+       text-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
       box-shadow:
         0 6px 16px rgba(0, 113, 227, 0.34),
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
