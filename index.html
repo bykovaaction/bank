@@ -1,8 +1,13 @@
+
 <!doctype html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <title>Справочник по банковским гарантиям</title>
   <style>
     :root {
@@ -30,7 +35,7 @@
       height: 100%;
       margin: 0;
       overflow: hidden;
-      font-family: "SF Pro Display", "Segoe UI", "Roboto", Arial, sans-serif;
+      font-family: "Inter", "Segoe UI", "Roboto", Arial, sans-serif;
       color: var(--text);
       background:
         radial-gradient(110% 80% at 8% 0%, #ffffff 0%, transparent 64%),
@@ -221,10 +226,74 @@
 <body>
   <div id="app"></div>
 
-  <script src="data.js"></script>
   <script>
     (function () {
-      var data = window.BG_DATA;
+      var data = {
+        title: "Банковские гарантии: краткий справочник",
+        subtitle: "Карточки и сравнение видов гарантий.",
+        categories: [
+          {
+            id: "payment-terms",
+            name: "По условиям выплаты денежных средств",
+            options: [
+              {
+                id: "conditional",
+                name: "Условная",
+                description: "Если принципал не выполнит договор, то, чтобы получить деньги по гарантии, бенифициар должен выполнить указанные в ней условия.",
+                reliability: "Ниже",
+                risk: "Выше риск отказа по формальным основаниям."
+              },
+              {
+                id: "unconditional",
+                name: "Безусловная",
+                description: "Банк-гарант выплатит сумму гарантии по письменному требованию бенефициара. Это более надежный вариант, чем условная гарантия.",
+                reliability: "Выше",
+                risk: "Ниже риск отказа в выплате."
+              }
+            ]
+          },
+          {
+            id: "revocation",
+            name: "По возможности отозвать обеспечение",
+            options: [
+              {
+                id: "revocable",
+                name: "Отзывная",
+                description: "Банк-гарант может отозвать гарантию, тогда бенефициар не получит деньги по ней.",
+                reliability: "Ниже",
+                risk: "Риск утраты обеспечения."
+              },
+              {
+                id: "irrevocable",
+                name: "Безотзывная",
+                description: "Гарантия прекращает свое действие только в случаях, перечисленных в статье 378 ГК. Это более надежный вариант, чем отзывная гарантия.",
+                reliability: "Выше",
+                risk: "Ниже риск одностороннего прекращения."
+              }
+            ]
+          },
+          {
+            id: "coverage",
+            name: "По условиям обеспечения",
+            options: [
+              {
+                id: "covered",
+                name: "Покрытая",
+                description: "Банк предоставляет гарантию взамен денежного или иного покрытия. Покрытую гарантию банк выдаст быстрее, чем непокрытую. По покрытой гарантии он выплатит обеспечение в более короткие сроки.",
+                reliability: "Выше",
+                risk: "Обычно быстрее выдача и выплата."
+              },
+              {
+                id: "uncovered",
+                name: "Непокрытая",
+                description: "Такую гарантию банк выдает без обеспечения.",
+                reliability: "Зависит от условий",
+                risk: "Сроки и условия менее предсказуемы."
+              }
+            ]
+          }
+        ]
+      };
       var app = document.getElementById('app');
 
       if (!data || !Array.isArray(data.categories) || !data.categories.length) {
