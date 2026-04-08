@@ -246,7 +246,7 @@
                 description: "Если принципал не выполнит договор, то, чтобы получить деньги по гарантии, бенифициар должен выполнить указанные в ней условия.",
                 reliability: "Ниже",
                 risk: "Отказ банка при несоблюдении условий",
-                cost: "Стоимость: ниже"
+                cost: "Стоимость: Ниже"
               },
               {
                 id: "unconditional",
@@ -254,7 +254,7 @@
                 description: "Банк-гарант выплатит сумму гарантии по письменному требованию бенефициара. Это более надежный вариант, чем условная гарантия.",
                 reliability: "Выше",
                 risk: "Ниже риск отказа в выплате",
-                cost: "Стоимость: выше"
+                cost: "Стоимость: Выше"
               }
             ]
           },
@@ -268,7 +268,7 @@
                 description: "Банк-гарант может отозвать гарантию, тогда бенефициар не получит деньги по ней.",
                 reliability: "Ниже",
                 risk: "Риск утраты обеспечения",
-                cost: "Стоимость: выше"
+                cost: "Стоимость: Выше"
               },
               {
                 id: "irrevocable",
@@ -276,7 +276,7 @@
                 description: "Гарантия прекращает свое действие только в случаях, перечисленных в статье 378 ГК. Это более надежный вариант, чем отзывная гарантия.",
                 reliability: "Выше",
                 risk: "Ниже риск утраты обеспечения",
-                cost: "Стоимость: ниже"
+                cost: "Стоимость: Ниже"
               }
             ]
           },
@@ -332,6 +332,13 @@
         if (t.indexOf('ниже') !== -1) return 'warn';
         return '';
       }
+      
+      function costClass(value) {
+    var t = String(value || '').toLowerCase();
+    if (t.indexOf('ниже') !== -1) return 'ok';   // дешевле = хорошо
+    if (t.indexOf('выше') !== -1) return 'warn'; // дороже = предупреждение
+    return '';
+  }
 
       function getActiveCategory() {
         return data.categories.find(function (category) {
@@ -356,7 +363,7 @@
     '<div class="meta">',
     '<span class="tag ' + reliabilityClass(option.reliability) + '">Надежность: ' + option.reliability + '</span>',
     '<span class="tag">' + option.risk + '</span>',
-    option.cost ? '<span class="tag">' + option.cost + '</span>' : '',
+    option.cost ? '<span class="tag ' + costClass(option.cost) + '">' + option.cost + '</span>' : '',
     '</div>',
     '</article>'
   ].join('');
