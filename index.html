@@ -245,14 +245,16 @@
                 name: "Условная",
                 description: "Если принципал не выполнит договор, то, чтобы получить деньги по гарантии, бенифициар должен выполнить указанные в ней условия.",
                 reliability: "Ниже",
-                risk: "Отказ банка при несоблюдении условий"
+                risk: "Отказ банка при несоблюдении условий",
+                cost: "Стоимость: ниже"
               },
               {
                 id: "unconditional",
                 name: "Безусловная",
                 description: "Банк-гарант выплатит сумму гарантии по письменному требованию бенефициара. Это более надежный вариант, чем условная гарантия.",
                 reliability: "Выше",
-                risk: "Ниже риск отказа в выплате"
+                risk: "Ниже риск отказа в выплате",
+                cost: "Стоимость: выше"
               }
             ]
           },
@@ -265,14 +267,16 @@
                 name: "Отзывная",
                 description: "Банк-гарант может отозвать гарантию, тогда бенефициар не получит деньги по ней.",
                 reliability: "Ниже",
-                risk: "Риск утраты обеспечения"
+                risk: "Риск утраты обеспечения",
+                cost: "Стоимость: выше"
               },
               {
                 id: "irrevocable",
                 name: "Безотзывная",
                 description: "Гарантия прекращает свое действие только в случаях, перечисленных в статье 378 ГК. Это более надежный вариант, чем отзывная гарантия.",
                 reliability: "Выше",
-                risk: "Ниже риск утраты обеспечения"
+                risk: "Ниже риск утраты обеспечения",
+                cost: "Стоимость: ниже"
               }
             ]
           },
@@ -285,7 +289,8 @@
                 name: "Покрытая",
                 description: "Банк предоставляет гарантию взамен денежного или иного покрытия. Покрытую гарантию банк выдаст быстрее, чем непокрытую. По покрытой гарантии он выплатит обеспечение в более короткие сроки.",
                 reliability: "Выше",
-                risk: "Обычно быстрее выдача и выплата"
+                risk: "Обычно быстрее выдача и выплата",
+                cost: "Стоимость зависит от условий покрытия"
               },
               {
                 id: "uncovered",
@@ -344,17 +349,18 @@
         }).join('');
 
         var cards = active.options.map(function (option) {
-          return [
-            '<article class="card">',
-            '<h3>' + option.name + '</h3>',
-            '<p class="desc">' + option.description + '</p>',
-            '<div class="meta">',
-            '<span class="tag ' + reliabilityClass(option.reliability) + '">Надежность: ' + option.reliability + '</span>',
-            '<span class="tag">' + option.risk + '</span>',
-            '</div>',
-            '</article>'
-          ].join('');
-        }).join('');
+  return [
+    '<article class="card">',
+    '<h3>' + option.name + '</h3>',
+    '<p class="desc">' + option.description + '</p>',
+    '<div class="meta">',
+    '<span class="tag ' + reliabilityClass(option.reliability) + '">Надежность: ' + option.reliability + '</span>',
+    '<span class="tag">' + option.risk + '</span>',
+    option.cost ? '<span class="tag">' + option.cost + '</span>' : '',
+    '</div>',
+    '</article>'
+  ].join('');
+}).join('');
 
         app.innerHTML = [
           '<main class="shell">',
